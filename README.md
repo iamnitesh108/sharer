@@ -24,12 +24,13 @@ nvm use
 npm install
 ```
 
-Run the server and the frontend in two terminals:
+Start the server and the frontend together:
 
 ```bash
-npm run dev:server   # http://localhost:3000
-npm run dev:web      # http://localhost:5173
+npm run dev
 ```
+
+The API runs on http://localhost:3000 and the frontend on http://localhost:5173.
 
 Open http://localhost:5173. The page should show "Hello from Sharer", which comes from the server.
 
@@ -37,8 +38,21 @@ During development, Vite forwards every `/api` request to the Express server, so
 
 ## Scripts
 
-| Command | What it does |
-|---|---|
-| `npm run dev:server` | Starts the API and restarts it when files change |
-| `npm run dev:web` | Starts the Vite dev server |
-| `npm run typecheck` | Type-checks the server and builds the frontend |
+Run these from the project root.
+
+| Command                | What it does                                     |
+| ---------------------- | ------------------------------------------------ |
+| `npm run dev`          | Starts the API and the frontend together         |
+| `npm run dev:server`   | Starts only the API (restarts when files change) |
+| `npm run dev:web`      | Starts only the Vite dev server                  |
+| `npm test`             | Runs the tests in every app                      |
+| `npm run lint`         | Lints the whole project with oxlint              |
+| `npm run format`       | Formats every file with Prettier                 |
+| `npm run format:check` | Checks formatting without changing files         |
+| `npm run typecheck`    | Type-checks every app                            |
+
+Inside an app folder, `npm run test:watch` re-runs the tests as you edit.
+
+## Continuous integration
+
+GitHub Actions runs the format check, lint, type-check and tests on every pull request and on every push to `main`. See [.github/workflows/ci.yml](.github/workflows/ci.yml).

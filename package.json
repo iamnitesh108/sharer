@@ -9,8 +9,18 @@
     "node": ">=24"
   },
   "scripts": {
+    "dev": "concurrently --names server,web --prefix-colors blue,magenta \"npm:dev:server\" \"npm:dev:web\"",
     "dev:server": "npm run dev --workspace @sharer/server",
     "dev:web": "npm run dev --workspace @sharer/web",
-    "typecheck": "npm run typecheck --workspace @sharer/server && npm run build --workspace @sharer/web"
+    "lint": "oxlint --deny-warnings",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5",
+    "oxlint": "^1.85.0",
+    "prettier": "^3.9.9"
   }
 }
