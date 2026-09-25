@@ -1,13 +1,26 @@
 import { createApp } from './app.ts'
+import { ConfigError, loadConfig } from './config/env.ts'
+import { createLogger } from './lib/logger.ts'
 
-const PORT = Number(process.env.PORT ?? 3000)
+function start() {
+  const config = loadConfig(process.env)
+  const logger = createLogger(config)
+  const app = createApp({ logger })
 
-const app = createApp()
+  app.listen(config.port, (error) => {
+    if (error) {
+      logger.fatal({ err: error }, 'Server failed to start')
+      process.exit(1)
+    }
 
-app.listen(PORT, (error) => {
-  if (error) {
-    throw error
-  }
+    logger.info(`Server running on http://localhost:${config.port}`)
+  })
+}
 
-  console.log(`Server running on http://localhost:${PORT}`)
-})
+try {
+  start()
+} catch (error) {
+  // The logger may not exist yet (for example when the config is invalid)
+  console.error(error instanceof ConfigError ? error.message : error)
+  process.exit(1)
+}
