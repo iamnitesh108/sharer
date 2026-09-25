@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import App from './App.tsx'
+import App from '../../src/App.tsx'
 
 function mockFetch(response: Response) {
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue(response))
