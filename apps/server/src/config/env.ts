@@ -8,6 +8,10 @@ const envSchema = z.object({
   LOG_LEVEL: z
     .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'])
     .default('info'),
+  DATABASE_URL: z.url({
+    protocol: /^postgres(ql)?$/,
+    error: 'Must be a postgres:// connection URL',
+  }),
 })
 
 export type Env = z.infer<typeof envSchema>
@@ -16,6 +20,7 @@ export type Config = {
   env: Env['NODE_ENV']
   port: number
   logLevel: Env['LOG_LEVEL']
+  databaseUrl: string
 }
 
 export class ConfigError extends Error {
@@ -45,5 +50,6 @@ export function loadConfig(source: NodeJS.ProcessEnv): Config {
     env: env.NODE_ENV,
     port: env.PORT,
     logLevel: env.LOG_LEVEL,
+    databaseUrl: env.DATABASE_URL,
   }
 }
