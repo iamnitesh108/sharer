@@ -2,15 +2,12 @@
 
 Share code and text with a link, and edit it together in real time.
 
-> Work in progress. See [docs/ROADMAP.md](docs/ROADMAP.md) for the plan.
-
 ## Project structure
 
 ```
 apps/
   server/   Express API (TypeScript, runs directly on Node)
   web/      React frontend (Vite + TypeScript)
-docs/       Roadmap, dev log and decision records
 ```
 
 ## Requirements
