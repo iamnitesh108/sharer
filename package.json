@@ -1,0 +1,16 @@
+{
+  "name": "sharer",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev:server": "npm run dev --workspace @sharer/server",
+    "dev:web": "npm run dev --workspace @sharer/web",
+    "typecheck": "npm run typecheck --workspace @sharer/server && npm run build --workspace @sharer/web"
+  }
+}
