@@ -1,0 +1,25 @@
+# Local development services. Start them with: podman compose up -d
+# (or docker compose up -d)
+
+services:
+  postgres:
+    image: docker.io/library/postgres:18-alpine
+    environment:
+      POSTGRES_USER: sharer
+      POSTGRES_PASSWORD: sharer
+      POSTGRES_DB: sharer
+    ports:
+      - '5432:5432'
+    volumes:
+      # Postgres 18 keeps its data under /var/lib/postgresql/18, so mount the parent folder
+      - postgres-data:/var/lib/postgresql
+      # Scripts in this folder run once, when the database is created for the first time
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U sharer -d sharer']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres-data:
