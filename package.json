@@ -16,7 +16,8 @@
     "build": "npm run build --workspaces --if-present",
     "format": "prettier --write . --ignore-path .gitignore --ignore-path .prettierignore --ignore-path .git/info/exclude",
     "format:check": "prettier --check . --ignore-path .gitignore --ignore-path .prettierignore --ignore-path .git/info/exclude",
-    "lint": "oxlint --deny-warnings"
+    "lint": "oxlint --deny-warnings",
+    "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
     "concurrently": "^10.0.5",
