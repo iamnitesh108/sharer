@@ -1,6 +1,11 @@
 :root {
   --color-bg: #ffffff;
   --color-text: #17191e;
+  --color-text-muted: #6b6f7a;
+  --color-primary: #17191e;
+  --color-on-primary: #ffffff;
+  --color-accent: #6e56cf;
+  --color-danger: #cf222e;
 
   color-scheme: light dark;
   font-family: system-ui, sans-serif;
@@ -13,6 +18,12 @@
   :root {
     --color-bg: #0e0f12;
     --color-text: #f7f7f8;
+    --color-text-muted: #9a9da6;
+    --color-primary: #ffffff;
+    --color-on-primary: #17191e;
+    --color-accent: #9e8cfc;
+    /* #cf222e is too low-contrast on the dark background */
+    --color-danger: #f85149;
   }
 }
 
@@ -28,4 +39,28 @@ main {
   max-width: 640px;
   margin: 0 auto;
   padding: 48px 16px;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.error {
+  color: var(--color-danger);
+}
+
+button {
+  min-height: 44px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 6px;
+  font: inherit;
+  color: var(--color-on-primary);
+  background-color: var(--color-primary);
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
