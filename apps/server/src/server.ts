@@ -1,8 +1,7 @@
 import { createApp } from './app.ts'
+import { parsePort } from './config/port.ts'
 
-const DEFAULT_PORT = 3000
-
-const port = readPort(process.env.PORT)
+const port = portFromEnv()
 const app = createApp()
 
 app.listen(port, (error) => {
@@ -15,18 +14,11 @@ app.listen(port, (error) => {
   console.log(`Server listening on http://localhost:${port}`)
 })
 
-function readPort(value: string | undefined): number {
-  if (value === undefined || value === '') {
-    return DEFAULT_PORT
-  }
-
-  const port = Number(value)
-  if (!Number.isInteger(port) || port < 1 || port > 65535) {
-    console.error(
-      `PORT must be an integer between 1 and 65535 (got "${value}")`,
-    )
+function portFromEnv(): number {
+  try {
+    return parsePort(process.env.PORT)
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : error)
     process.exit(1)
   }
-
-  return port
 }
