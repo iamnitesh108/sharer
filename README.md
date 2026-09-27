@@ -39,24 +39,24 @@ In development the browser only talks to Vite on port 5173. Vite forwards every 
 
 ## Configuration
 
-| Variable | Used by | Default | Purpose |
-|---|---|---|---|
-| `PORT` | server (`apps/server/.env`) | `3000` | Port the API listens on |
-| `API_PROXY_TARGET` | web dev server | `http://localhost:3000` | Where Vite forwards `/api` requests |
+| Variable           | Used by                     | Default                 | Purpose                             |
+| ------------------ | --------------------------- | ----------------------- | ----------------------------------- |
+| `PORT`             | server (`apps/server/.env`) | `3000`                  | Port the API listens on             |
+| `API_PROXY_TARGET` | web dev server              | `http://localhost:3000` | Where Vite forwards `/api` requests |
 
 Example: `PORT=3100 npm run dev:server` and `API_PROXY_TARGET=http://localhost:3100 npm run dev:web`.
 
 ## Scripts
 
-| Command | What it does |
-|---|---|
+| Command              | What it does                                       |
+| -------------------- | -------------------------------------------------- |
 | `npm run dev:server` | Starts the API and restarts it when a file changes |
-| `npm run dev:web` | Starts the Vite dev server with hot reload |
-| `npm run typecheck` | Type-checks both apps |
-| `npm run build` | Builds the web app into `apps/web/dist` |
+| `npm run dev:web`    | Starts the Vite dev server with hot reload         |
+| `npm run typecheck`  | Type-checks both apps                              |
+| `npm run build`      | Builds the web app into `apps/web/dist`            |
 
 ## API
 
-| Method | Path | Response |
-|---|---|---|
-| `GET` | `/api/hello` | `200` `{ "message": "Hello from Sharer" }` |
+| Method | Path         | Response                                   |
+| ------ | ------------ | ------------------------------------------ |
+| `GET`  | `/api/hello` | `200` `{ "message": "Hello from Sharer" }` |

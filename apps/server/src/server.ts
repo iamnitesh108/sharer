@@ -22,7 +22,9 @@ function readPort(value: string | undefined): number {
 
   const port = Number(value)
   if (!Number.isInteger(port) || port < 1 || port > 65535) {
-    console.error(`PORT must be an integer between 1 and 65535 (got "${value}")`)
+    console.error(
+      `PORT must be an integer between 1 and 65535 (got "${value}")`,
+    )
     process.exit(1)
   }
 

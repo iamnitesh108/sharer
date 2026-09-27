@@ -7,7 +7,10 @@ export function App() {
     <main>
       <h1>
         <picture>
-          <source srcSet="/logo-dark.svg" media="(prefers-color-scheme: dark)" />
+          <source
+            srcSet="/logo-dark.svg"
+            media="(prefers-color-scheme: dark)"
+          />
           <img src="/logo.svg" alt="Sharer" width="133" height="40" />
         </picture>
       </h1>
