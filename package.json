@@ -10,6 +10,8 @@
   },
   "scripts": {
     "dev:server": "npm run dev --workspace @sharer/server",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "dev:web": "npm run dev --workspace @sharer/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present"
   }
 }
