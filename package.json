@@ -1,0 +1,11 @@
+{
+  "name": "sharer",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=24"
+  }
+}
