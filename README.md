@@ -16,12 +16,13 @@ npm install
 cp apps/server/.env.example apps/server/.env   # optional, the defaults work
 ```
 
-Start the API and the web app in two terminals:
+Start the API and the web app together:
 
 ```sh
-npm run dev:server   # http://localhost:3000
-npm run dev:web      # http://localhost:5173
+npm run dev   # API on http://localhost:3000, web on http://localhost:5173
 ```
+
+Or in two terminals with `npm run dev:server` and `npm run dev:web`.
 
 Open http://localhost:5173. The page should say "Hello from Sharer".
 
@@ -39,24 +40,31 @@ In development the browser only talks to Vite on port 5173. Vite forwards every 
 
 ## Configuration
 
-| Variable | Used by | Default | Purpose |
-|---|---|---|---|
-| `PORT` | server (`apps/server/.env`) | `3000` | Port the API listens on |
-| `API_PROXY_TARGET` | web dev server | `http://localhost:3000` | Where Vite forwards `/api` requests |
+| Variable           | Used by                     | Default                 | Purpose                             |
+| ------------------ | --------------------------- | ----------------------- | ----------------------------------- |
+| `PORT`             | server (`apps/server/.env`) | `3000`                  | Port the API listens on             |
+| `API_PROXY_TARGET` | web dev server              | `http://localhost:3000` | Where Vite forwards `/api` requests |
 
 Example: `PORT=3100 npm run dev:server` and `API_PROXY_TARGET=http://localhost:3100 npm run dev:web`.
 
 ## Scripts
 
-| Command | What it does |
-|---|---|
-| `npm run dev:server` | Starts the API and restarts it when a file changes |
-| `npm run dev:web` | Starts the Vite dev server with hot reload |
-| `npm run typecheck` | Type-checks both apps |
-| `npm run build` | Builds the web app into `apps/web/dist` |
+| Command              | What it does                                                                                          |
+| -------------------- | ----------------------------------------------------------------------------------------------------- |
+| `npm run dev`        | Starts the API and the web app together                                                               |
+| `npm run dev:server` | Starts the API and restarts it when a file changes                                                    |
+| `npm run dev:web`    | Starts the Vite dev server with hot reload                                                            |
+| `npm test`           | Runs the tests of both apps (Vitest)                                                                  |
+| `npm run lint`       | Lints both apps (oxlint)                                                                              |
+| `npm run format`     | Formats everything (Prettier)                                                                         |
+| `npm run typecheck`  | Type-checks both apps                                                                                 |
+| `npm run build`      | Builds the web app into `apps/web/dist`                                                               |
+| `npm run check`      | Runs the format check, lint, type check, tests and build: what CI runs on every push and pull request |
+
+Tests live in each app's `tests/` folder, mirroring `src/`.
 
 ## API
 
-| Method | Path | Response |
-|---|---|---|
-| `GET` | `/api/hello` | `200` `{ "message": "Hello from Sharer" }` |
+| Method | Path         | Response                                   |
+| ------ | ------------ | ------------------------------------------ |
+| `GET`  | `/api/hello` | `200` `{ "message": "Hello from Sharer" }` |
