@@ -6,10 +6,8 @@ export type HelloState =
   | { status: 'ready'; message: string }
   | { status: 'error' }
 
-export function useHello(): { state: HelloState; retry: () => void } {
+export function useHello(): HelloState {
   const [state, setState] = useState<HelloState>({ status: 'loading' })
-  // retry() bumps this to run the effect again
-  const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -21,7 +19,7 @@ export function useHello(): { state: HelloState; retry: () => void } {
         }
       })
       .catch((error: unknown) => {
-        // A cancelled request (unmount, retry, StrictMode's second run) must not update state
+        // A cancelled request (unmount or StrictMode's second run) must not update state
         if (controller.signal.aborted) return
 
         console.error(error)
@@ -29,12 +27,7 @@ export function useHello(): { state: HelloState; retry: () => void } {
       })
 
     return () => controller.abort()
-  }, [attempt])
+  }, [])
 
-  function retry() {
-    setState({ status: 'loading' })
-    setAttempt((count) => count + 1)
-  }
-
-  return { state, retry }
+  return state
 }

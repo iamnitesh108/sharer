@@ -1,7 +1,8 @@
-import { useHello } from './hooks/useHello.ts'
+import { useState } from 'react'
+import { Greeting } from './components/Greeting.tsx'
 
 export function App() {
-  const { state, retry } = useHello()
+  const [attempt, setAttempt] = useState(0)
 
   return (
     <main>
@@ -15,20 +16,11 @@ export function App() {
         </picture>
       </h1>
 
-      <div aria-live="polite">
-        {state.status === 'loading' && <p className="muted">Loading…</p>}
-
-        {state.status === 'ready' && <p>{state.message}</p>}
-
-        {state.status === 'error' && (
-          <>
-            <p className="error">Couldn't reach the server.</p>
-            <button type="button" onClick={retry}>
-              Retry
-            </button>
-          </>
-        )}
-      </div>
+      {/* A new key mounts a fresh Greeting, which starts a new request */}
+      <Greeting
+        key={attempt}
+        onRetry={() => setAttempt((count) => count + 1)}
+      />
     </main>
   )
 }
