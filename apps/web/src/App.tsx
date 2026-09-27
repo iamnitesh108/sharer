@@ -5,7 +5,12 @@ export function App() {
 
   return (
     <main>
-      <h1>Sharer</h1>
+      <h1>
+        <picture>
+          <source srcSet="/logo-dark.svg" media="(prefers-color-scheme: dark)" />
+          <img src="/logo.svg" alt="Sharer" width="133" height="40" />
+        </picture>
+      </h1>
 
       <div aria-live="polite">
         {state.status === 'loading' && <p className="muted">Loading…</p>}
