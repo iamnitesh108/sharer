@@ -1,22 +1,25 @@
 import { createApp } from './app.ts'
-import { parsePort } from './config/port.ts'
+import { loadConfig, type Config } from './config/env.ts'
+import { createLogger } from './lib/logger.ts'
 
-const port = portFromEnv()
-const app = createApp()
+const config = configOrExit()
+const logger = createLogger(config.logLevel)
+const app = createApp({ logger })
 
-app.listen(port, (error) => {
+app.listen(config.port, (error) => {
   // Express 5 passes listen errors, such as a port already in use, to this callback
   if (error) {
-    console.error(`Could not start the server: ${error.message}`)
+    logger.fatal({ err: error }, 'Could not start the server')
     process.exit(1)
   }
 
-  console.log(`Server listening on http://localhost:${port}`)
+  logger.info(`Server listening on http://localhost:${config.port}`)
 })
 
-function portFromEnv(): number {
+// Runs before the logger exists, so problems go straight to stderr
+function configOrExit(): Config {
   try {
-    return parsePort(process.env.PORT)
+    return loadConfig(process.env)
   } catch (error) {
     console.error(error instanceof Error ? error.message : error)
     process.exit(1)

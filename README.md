@@ -40,10 +40,13 @@ In development the browser only talks to Vite on port 5173. Vite forwards every 
 
 ## Configuration
 
-| Variable           | Used by                     | Default                 | Purpose                             |
-| ------------------ | --------------------------- | ----------------------- | ----------------------------------- |
-| `PORT`             | server (`apps/server/.env`) | `3000`                  | Port the API listens on             |
-| `API_PROXY_TARGET` | web dev server              | `http://localhost:3000` | Where Vite forwards `/api` requests |
+| Variable           | Used by                     | Default                 | Purpose                                                        |
+| ------------------ | --------------------------- | ----------------------- | -------------------------------------------------------------- |
+| `PORT`             | server (`apps/server/.env`) | `3000`                  | Port the API listens on                                        |
+| `LOG_LEVEL`        | server                      | `info`                  | `fatal`, `error`, `warn`, `info`, `debug`, `trace` or `silent` |
+| `API_PROXY_TARGET` | web dev server              | `http://localhost:3000` | Where Vite forwards `/api` requests                            |
+
+The server checks these at startup and refuses to start if any value is invalid, listing every problem.
 
 Example: `PORT=3100 npm run dev:server` and `API_PROXY_TARGET=http://localhost:3100 npm run dev:web`.
 
@@ -65,6 +68,25 @@ Tests live in each app's `tests/` folder, mirroring `src/`.
 
 ## API
 
-| Method | Path         | Response                                   |
-| ------ | ------------ | ------------------------------------------ |
-| `GET`  | `/api/hello` | `200` `{ "message": "Hello from Sharer" }` |
+| Method | Path          | Response                                   |
+| ------ | ------------- | ------------------------------------------ |
+| `GET`  | `/api/health` | `200` `{ "status": "ok" }`                 |
+| `GET`  | `/api/hello`  | `200` `{ "message": "Hello from Sharer" }` |
+
+Errors always have the same shape:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Request is invalid",
+    "details": [{ "path": "body.name", "message": "is required" }]
+  }
+}
+```
+
+`details` is only present for validation errors. Codes: `BAD_REQUEST` (400), `VALIDATION_ERROR` (400), `NOT_FOUND` (404), `PAYLOAD_TOO_LARGE` (413, bodies over 100 kB) and `INTERNAL_ERROR` (500).
+
+## Logs
+
+The server writes one JSON line per event, including one per request (method, URL, status and duration; never headers). `npm run dev` pipes it through `pino-pretty` to make it readable.

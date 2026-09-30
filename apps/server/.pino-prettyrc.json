@@ -1,0 +1,4 @@
+{
+  "ignore": "pid,hostname,method,url,statusCode,durationMs",
+  "translateTime": "SYS:HH:MM:ss"
+}
