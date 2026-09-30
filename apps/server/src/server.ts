@@ -1,22 +1,22 @@
 import { createApp } from './app.ts'
-import { parsePort } from './config/port.ts'
+import { loadConfig, type Config } from './config/env.ts'
 
-const port = portFromEnv()
+const config = configOrExit()
 const app = createApp()
 
-app.listen(port, (error) => {
+app.listen(config.port, (error) => {
   // Express 5 passes listen errors, such as a port already in use, to this callback
   if (error) {
     console.error(`Could not start the server: ${error.message}`)
     process.exit(1)
   }
 
-  console.log(`Server listening on http://localhost:${port}`)
+  console.log(`Server listening on http://localhost:${config.port}`)
 })
 
-function portFromEnv(): number {
+function configOrExit(): Config {
   try {
-    return parsePort(process.env.PORT)
+    return loadConfig(process.env)
   } catch (error) {
     console.error(error instanceof Error ? error.message : error)
     process.exit(1)
