@@ -28,9 +28,10 @@ export function toAppError(error: unknown): AppError | undefined {
 }
 
 function sendError(res: Response, error: AppError) {
+  const { code, message, details } = error
   res
     .status(error.statusCode)
-    .json({ error: { code: error.code, message: error.message } })
+    .json({ error: { code, message, ...(details && { details }) } })
 }
 
 export function createErrorHandler(logger: Logger): ErrorRequestHandler {
