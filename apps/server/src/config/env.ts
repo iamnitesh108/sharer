@@ -1,6 +1,15 @@
 import { z } from 'zod'
 
 const MAX_PORT = 65535
+const LOG_LEVELS = [
+  'fatal',
+  'error',
+  'warn',
+  'info',
+  'debug',
+  'trace',
+  'silent',
+] as const
 
 function portProblem(input: unknown): string {
   return `must be an integer between 1 and ${MAX_PORT} (got "${String(input)}")`
@@ -15,10 +24,16 @@ const envSchema = z.object({
       error: (issue) => portProblem(issue.input),
     })
     .default(3000),
+  LOG_LEVEL: z
+    .enum(LOG_LEVELS, { error: `must be one of ${LOG_LEVELS.join(', ')}` })
+    .default('info'),
 })
+
+export type LogLevel = (typeof LOG_LEVELS)[number]
 
 export type Config = {
   port: number
+  logLevel: LogLevel
 }
 
 export class ConfigError extends Error {
@@ -43,5 +58,5 @@ export function loadConfig(env: Record<string, string | undefined>): Config {
     )
   }
 
-  return { port: result.data.PORT }
+  return { port: result.data.PORT, logLevel: result.data.LOG_LEVEL }
 }
