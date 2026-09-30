@@ -16,6 +16,13 @@ describe('createApp', () => {
     expect(response.body).toEqual({ message: 'Hello from Sharer' })
   })
 
+  it('answers GET /api/health with ok', async () => {
+    const response = await request(createTestApp()).get('/api/health')
+
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual({ status: 'ok' })
+  })
+
   it('returns a JSON 404 for an unknown route', async () => {
     const response = await request(createTestApp()).get('/api/unknown')
 
